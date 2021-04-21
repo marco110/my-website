@@ -1,3 +1,5 @@
+#!groovy
+
 node(){
     stage('Get Souce Code'){
         try {
