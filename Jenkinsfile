@@ -12,7 +12,7 @@ node(){
         }
     }
 
-    state('npm install'){
+    stage('npm install'){
         try{
             echo "npm 获取依赖"
             sh "npm --registry https://registry.npm.taobao.org install"
