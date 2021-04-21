@@ -3,11 +3,11 @@
 node(){
     stage('Get Souce Code'){
         try {
-            PrintMessage('get source code', 'green')
+            PrintMessage("get source code", "green")
             checkout scm
         }
         catch(err) {
-            PrintMessage('get source code failed', 'red')
+            PrintMessage("get source code failed", "red")
             throw err
         }
     }
