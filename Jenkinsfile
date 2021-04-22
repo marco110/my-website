@@ -1,12 +1,6 @@
 #!groovy
 
-pipeline {
-    agent {
-        docker {
-            image 'node:10.20.1-alpine3.11' 
-            args '-v $HOME/.m2:/root/.m2'
-        }
-
+node(){
     stage('Get Souce Code'){
         try {
             echo "get source code"
@@ -18,7 +12,7 @@ pipeline {
         }
     }
 
-    state('npm install'){
+    stage('npm install'){
         try{
             echo "npm 获取依赖"
             sh "npm --registry https://registry.npm.taobao.org install"
