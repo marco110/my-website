@@ -1,6 +1,12 @@
 #!groovy
 
-node(){
+pipeline {
+    agent {
+        docker {
+            image 'node:10.20.1-alpine3.11' 
+            args '-v $HOME/.m2:/root/.m2'
+        }
+
     stage('Get Souce Code'){
         try {
             echo "get source code"
