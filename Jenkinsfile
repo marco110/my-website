@@ -25,7 +25,7 @@ node(){
 
     stage('Build code') {
         try{
-                echo "Dev Test Package","green" 
+                echo "Build code"
                 sh "npm run build"
             }catch(err){
                 echo "Build code失败"
