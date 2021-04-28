@@ -40,10 +40,10 @@ node(){
             sh 'ls'
             sh 'cp -r "dist" "./devops_build/dist"'
 
-            sh "docker rm -f ${dockerName} | true"
+            sh "docker rm -f ${dockerName}"
             sh "docker build -t ${dockerName}:${dockerTag} ./devops_build"
 
-            sh "docker run -u root --rm --name ${dockerName} -p 8000:8000 -it -d nginx:1.17.3-alpine"
+            sh "docker run -u root --rm --name ${dockerName} -p 8000:8000 -v $(pwd) -it -d nginx:1.17.3-alpine"
 
             //only retain last 3 images
             sh """docker rmi \$(docker images | grep ${dockerName} | sed -n  '4,\$p' | awk '{print \$3}') || true"""
