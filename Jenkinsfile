@@ -17,9 +17,9 @@ node(){
             docker.image('node:12-alpine').inside {
                 sh 'node --version'
                 sh 'npm --version'
-                sh "npm install -g cnpm --registry=https://registry.npm.taobao.org"
-                sh 'cnpm install'
-                sh 'cnpm run build'
+                sh "npm --registry https://registry.npm.taobao.org install"
+                sh 'npm install'
+                sh 'npm run build'
             }
             }
         catch(err){
