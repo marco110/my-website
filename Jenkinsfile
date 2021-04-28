@@ -14,7 +14,7 @@ node(){
 
     stage('npm run build'){
         try{
-            docker.image('node:11-alpine').inside {
+            docker.image('node:12-alpine').inside {
                 sh 'node --version'
                 sh 'npm --version'
                 sh "npm install -g cnpm --registry=https://registry.npm.taobao.org"
