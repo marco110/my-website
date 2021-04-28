@@ -33,5 +33,9 @@ node(){
             sh "docker build -t docker-test-new:v1 /devops_build"
             sh "docker run -u root --name docker-test-new-v1 -p 8000:8000 -it -d nginx:1.17.3-alpine"
         }
+        catch(err){
+                echo "deploy with Nginx failed"
+                throw err
+            }
     }
 }
