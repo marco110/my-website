@@ -4,7 +4,7 @@ LABEL MAINTAINER="marco"
 
 RUN pwd
 
-COPY /devops_build/nginx.conf /etc/nginx/nginx.conf
+COPY ./nginx.conf /etc/nginx/nginx.conf
 
 RUN rm -rf /usr/share/nginx/html
-COPY /devops_build/dist/ /usr/share/nginx/html
+COPY ./dist/ /usr/share/nginx/html
