@@ -1,6 +1,12 @@
 #!groovy
 
+import java.text.SimpleDateFormat
+
 node(){
+    def dateFormat = new SimpleDateFormat("yyyyMMddHHmm")
+    def dockerTag = dateFormat.format(new Date())
+    def dockerName='marco-test'
+
     stage('Get Souce Code') {
         try {
             echo "get source code"
@@ -30,10 +36,17 @@ node(){
 
     stage('deploy with Nginx') {
         try {
+            sh 'pwd'
+            sh 'ls'
             sh 'cp -r "dist" "./devops_build/dist"'
-            sh "docker rm \$(docker ps -a -q)"
-            sh "docker build -t docker-test-new:v1 ./devops_build"
-            sh "docker run -u root --rm --name docker-test-new-v1 -p 8000:8000 -it -d nginx:1.17.3-alpine"
+
+            sh "docker rm -f ${dockerName} | true"
+            sh "docker build -t ${dockerName}:${dockerTag} ./devops_build"
+
+            sh "docker run -u root --rm --name ${dockerName} -p 8000:8000 -it -d nginx:1.17.3-alpine"
+
+            //only retain last 3 images
+            sh """docker rmi \$(docker images | grep ${dockerName} | sed -n  '4,\$p' | awk '{print \$3}') || true"""
         }
         catch(err){
                 echo "deploy with Nginx failed"
