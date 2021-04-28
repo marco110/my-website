@@ -46,7 +46,7 @@ node(){
             sh "docker run -u root --rm --name ${dockerName} -p 8000:8000 -it -d nginx:1.17.3-alpine"
 
             //only retain last 3 images
-            sh """docker rmi \$(docker images | grep ${dockerName} | sed -n  '4,\$p' | awk '{print \$3}') || true"""
+            sh """docker rmi \$(docker images | grep ${dockerName})"""
         }
         catch(err){
                 echo "deploy with Nginx failed"
