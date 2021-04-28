@@ -43,7 +43,7 @@ node(){
             sh "docker rm -f ${dockerName}"
             sh "docker build --no-cache=true -t ${dockerName}:${dockerTag} ./devops_build"
 
-            sh "docker run -u root --rm --name ${dockerName} -p 8000:80 -it -d -v ${pwd}/devops_build/nginx.conf:/etc/nginx/nginx.conf -v${pwd}/dist:/usr/share/nginx/html nginx:1.17.3-alpine"
+            sh "docker run -u root --rm --name ${dockerName} -p 8000:80 -it -d -v ${pwd}/devops_build/nginx.conf:/etc/nginx/nginx.conf -v ${pwd}/dist:/usr/share/nginx/html nginx:1.17.3-alpine"
 
             //only retain last 3 images
             sh """docker rmi \$(docker images | grep ${dockerName} | sed -n  '4,\$p' | awk '{print \$3}') || true"""
