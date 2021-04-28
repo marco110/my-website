@@ -1,7 +1,7 @@
 #!groovy
 
 node(){
-    stage('Get Souce Code'){
+    stage('Get Souce Code') {
         try {
             echo "get source code"
             checkout scm
@@ -12,7 +12,7 @@ node(){
         }
     }
 
-    stage('npm run build'){
+    stage('npm run build') {
         try{
             docker.image('node:12-alpine').inside {
                 sh 'node --version'
@@ -26,5 +26,12 @@ node(){
                 echo "npm run build failed"
                 throw err
             }
+    }
+
+    stage('deploy with Nginx') {
+        try {
+            sh "docker build -t docker-test-new:v1 /devops_build"
+            sh "docker run -u root --name docker-test-new-v1 -p 8000:8000 -it -d nginx:1.17.3-alpine"
+        }
     }
 }
