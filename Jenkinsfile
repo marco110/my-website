@@ -12,23 +12,18 @@ node(){
         }
     }
 
-    stage('npm install'){
+    stage('npm run build'){
         try{
-            echo "npm 获取依赖"
-            sh "npm --registry https://registry.npm.taobao.org install"
+            docker.image('node:11-alpine').inside {
+                sh 'node --version'
+                sh 'npm --version'
+                sh "npm --registry https://registry.npm.taobao.org install"
+                sh 'npm install'
+                sh 'npm run build'
+            }
             }
         catch(err){
-                echo "npm 获取依赖失败"
-                throw err
-            }
-    }
-
-    stage('Build code') {
-        try{
-                echo "Build code"
-                sh "npm run build"
-            }catch(err){
-                echo "Build code失败"
+                echo "npm run build failed"
                 throw err
             }
     }
