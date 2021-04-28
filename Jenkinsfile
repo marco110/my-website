@@ -31,8 +31,9 @@ node(){
     stage('deploy with Nginx') {
         try {
             sh 'cp -r "dist" "./devops_build/dist"'
+            sh "docker rm $(docker ps -a -q)"
             sh "docker build -t docker-test-new:v1 ./devops_build"
-            sh "docker run -u root --name docker-test-new-v1 -p 8000:8000 -it -d nginx:1.17.3-alpine"
+            sh "docker run -u root --rm --name docker-test-new-v1 -p 8000:8000 -it -d nginx:1.17.3-alpine"
         }
         catch(err){
                 echo "deploy with Nginx failed"
