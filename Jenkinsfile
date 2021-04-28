@@ -41,9 +41,9 @@ node(){
             sh 'cp -r "dist" "./devops_build/dist"'
 
             sh "docker rm -f ${dockerName}"
-            sh "docker build -t ${dockerName}:${dockerTag} ./devops_build"
+            sh "docker build -t --no-cache=true ${dockerName}:${dockerTag} ./devops_build"
 
-            sh "docker run -u root --rm --name ${dockerName} -p 8000:80 -it -d --no-cache=true nginx:1.17.3-alpine"
+            sh "docker run -u root --rm --name ${dockerName} -p 8000:80 -it -d nginx:1.17.3-alpine"
 
             //only retain last 3 images
             sh """docker rmi \$(docker images | grep ${dockerName} | sed -n  '4,\$p' | awk '{print \$3}') || true"""
