@@ -43,7 +43,7 @@ node(){
             sh "docker rm -f ${dockerName}"
             sh "docker build --no-cache=true -t ${dockerName}:${dockerTag} ./devops_build"
 
-            sh "docker run -u root --name ${dockerName} -p 8000:80 -it -d ${dockerName}:${dockerTag}"
+            sh "docker run -u root --name ${dockerName} -p 80:80 -it -d ${dockerName}:${dockerTag}"
 
             // only retain last 3 images
             sh """docker rmi -f \$(docker images | grep ${dockerName} | sed -n  '4,\$p' | awk '{print \$3}') || true"""
