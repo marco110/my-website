@@ -1,20 +1,28 @@
 <template>
     <img alt="Vue logo" src="./assets/logo.png" />
     <HelloWorld msg="Welcome to my website......" />
+    <Footer />
 </template>
 
 <script>
 import HelloWorld from './components/HelloWorld.vue';
+import Footer from './components/Footer';
 
 export default {
     name: 'App',
     components: {
-        HelloWorld
+        HelloWorld,
+        Footer
     }
 };
 </script>
 
 <style>
+* {
+margin: 0;
+padding: 0;
+}
+
 #app {
     font-family: Avenir, Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
