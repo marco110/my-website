@@ -1,17 +1,16 @@
 <template>
-    <img alt="Vue logo" src="./assets/logo.png" />
-    <HelloWorld msg="Welcome to my website......" />
+    <Home />
     <Footer />
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue';
+import Home from './view/home';
 import Footer from './components/Footer';
 
 export default {
     name: 'App',
     components: {
-        HelloWorld,
+        Home,
         Footer
     }
 };
@@ -19,8 +18,8 @@ export default {
 
 <style>
 * {
-margin: 0;
-padding: 0;
+    margin: 0;
+    padding: 0;
 }
 
 #app {
