@@ -7,7 +7,7 @@ node(){
     def dockerTag = dateFormat.format(new Date())
     def dockerName='marco-test'
 
-    stage('Get Souce Code') {
+    stage('get souce code') {
         try {
             echo "get source code"
             checkout scm
@@ -34,7 +34,7 @@ node(){
             }
     }
 
-    stage('deploy with Nginx') {
+    stage('deploy with nginx') {
         try {
             sh 'pwd'
             sh 'ls'
