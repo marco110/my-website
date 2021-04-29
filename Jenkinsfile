@@ -38,7 +38,7 @@ node(){
         try {
             sh 'pwd'
             sh 'ls'
-            sh 'cp -r "dist/" "./devops_build/dist"'
+            sh 'cp -r dist ./devops_build/dist'
 
             sh "docker rm -f ${dockerName}"
             sh "docker build --no-cache=true -t ${dockerName}:${dockerTag} ./devops_build"
