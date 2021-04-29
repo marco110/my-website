@@ -41,7 +41,7 @@ node(){
             sh 'cp -r "dist" "./devops_build/dist"'
 
             sh "docker rm -f ${dockerName}"
-            sh "docker build -t ${dockerName}:${dockerTag} ./devops_build"
+            sh "docker build --no-cache=true -t ${dockerName}:${dockerTag} ./devops_build"
 
             sh "docker run -u root --name ${dockerName} -p 8000:80 -it -d ${dockerName}:${dockerTag}"
 
