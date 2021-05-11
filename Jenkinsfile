@@ -5,7 +5,9 @@ import java.text.SimpleDateFormat
 node(){
     def dateFormat = new SimpleDateFormat("yyyyMMddHHmm")
     def dockerTag = dateFormat.format(new Date())
-    def dockerName='marco-test'
+    def registry = 'registry.cn-beijing.aliyuncs.com'
+    def dockerName='marco_images/image-test'
+    def sshIP='8.140.26.173'
 
     stage('get souce code') {
         try {
@@ -34,23 +36,45 @@ node(){
             }
     }
 
-    stage('deploy with nginx') {
-        try {
-            sh 'pwd'
-            sh 'ls'
-            sh 'cp -r dist ./devops_build'
+    stage('build and upload Image') {
+        withCredentials([usernamePassword(credentialsId: 'jenkins_login_aliyun_docker', usernameVariable: 'username', passwordVariable: 'password')]) {
+            try {
+                sh 'pwd'
+                sh 'ls'
+                sh 'cp -r dist ./devops_build'
 
-            sh "docker rm -f ${dockerName}"
-            sh "docker build --no-cache=true -t ${dockerName}:${dockerTag} ./devops_build"
-
-            sh "docker run -u root --name ${dockerName} -p 80:80 -it -d ${dockerName}:${dockerTag}"
-
-            // only retain last 3 images
-            sh """docker rmi -f \$(docker images | grep ${dockerName} | sed -n  '4,\$p' | awk '{print \$3}') || true"""
-        }
-        catch(err){
-                echo "deploy with Nginx failed"
+                sh "docker login -u ${username} -p ${password} ${registry}"
+                sh "docker build -t ${dockerName}:${dockerTag} ./devops_build"
+                sh "docker push ${registry}/${dockerName}:${dockerTag}"
+                sh "docker rmi ${registry}/${dockerName}:${dockerTag}"
+            }
+            catch(err) {
+                echo "build and upload Image failed"
                 throw err
             }
+
+            try {
+                def sshServer = getServer(sshIP)
+                // 更新或下载镜像
+                sshCommand remote: sshServer, command: "docker pull ${registry}/${dockerName}:${dockerTag}"
+            }
+            catch(err){
+                echo "remote & pull image failed"
+                throw err
+            }
+        }
     }
+}
+
+def getServer(ip){
+    def remote = [:]
+    remote.name = "server-${ip}"
+    remote.host = ip
+    remote.port = 22
+    remote.allowAnyHosts = true
+    withCredentials([usernamePassword(credentialsId: 'ssh_remote_server', passwordVariable: 'password', usernameVariable: 'userName')]) {
+        remote.user = "${userName}"
+        remote.password = "${password}"
+    }
+    return remote
 }
