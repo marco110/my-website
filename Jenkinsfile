@@ -58,6 +58,14 @@ node(){
                 def sshServer = getServer(sshIP)
                 // 更新或下载镜像
                 sshCommand remote: sshServer, command: "docker pull ${registry}/${dockerName}:${dockerTag}"
+                
+                // 停止并删除容器
+                sshCommand remote: sshServer, command: "docker stop ${registry}/${dockerName}"
+                sshCommand remote: sshServer, command: "docker rm -f ${registry}/${dockerName}"
+                // 启动
+                sshCommand remote: sshServer, command: "docker run -u root --name ${registry}/${dockerName} -p 80:80 -d ${registry}/${dockerName}:${dockerTag}"
+                // 只保留3个最新的镜像
+                sshCommand remote: sshServer, command: """docker rmi -f \$(docker images | grep ${registry}/${dockerName} | sed -n  '4,\$p' | awk '{print \$3}') || true"""
             }
             catch(err){
                 echo "remote & pull image failed"
