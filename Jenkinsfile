@@ -60,7 +60,7 @@ node(){
                 sshCommand remote: sshServer, command: "docker pull ${registry}/${dockerName}:${dockerTag}"
                 
                 // 停止并删除容器
-                sshCommand remote: sshServer, command: "docker stop ${registry}/${dockerName}"
+                // sshCommand remote: sshServer, command: "docker stop ${registry}/${dockerName}"
                 sshCommand remote: sshServer, command: "docker rm -f ${registry}/${dockerName}"
                 // 启动
                 sshCommand remote: sshServer, command: "docker run -u root --name ${registry}/${dockerName} -p 80:80 -d ${registry}/${dockerName}:${dockerTag}"
@@ -76,6 +76,7 @@ node(){
 }
 
 def getServer(ip){
+    // 需要安装插件 SSH Pipeline Steps
     def remote = [:]
     remote.name = "server-${ip}"
     remote.host = ip
