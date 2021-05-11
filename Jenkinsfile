@@ -67,8 +67,7 @@ node() {
             // 连接远程服务器
             def sshServer = getServer(sshIP)
 
-            sshCommand remote: sshServer, command: "cp dist /home/marco/website/temp/"
-
+            sshPut remote: sshServer, from 'dist', into:'/home/marco/website/temp/'
             // // 更新或下载镜像
             // sshCommand remote: sshServer, command: "docker pull ${registry}/${aliyunNamespace}:${dockerTag}"
             
