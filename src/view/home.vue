@@ -2,7 +2,7 @@
     <h1>Welcome to <strong>marcoma.site</strong></h1>
     <div class="content">
         <div class="alert">
-            <h2>更多内容,敬请期待...</h2>
+            <h2>更多内容,敬请期待......</h2>
             <div class="content">
                 <div style="text-align: center">
                     <video width="420" height="340" controls="controls">

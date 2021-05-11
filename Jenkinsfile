@@ -6,7 +6,8 @@ node(){
     def dateFormat = new SimpleDateFormat("yyyyMMddHHmm")
     def dockerTag = dateFormat.format(new Date())
     def registry = 'registry.cn-beijing.aliyuncs.com'
-    def dockerName='marco_images/image-test'
+    def dockerName='marco-test'
+    def aliyunNamespace='marco_images/image-test'
     def sshIP='8.140.26.173'
 
     stage('get souce code') {
@@ -44,10 +45,10 @@ node(){
                 sh 'cp -r dist ./devops_build'
 
                 sh "docker login -u ${username} -p ${password} ${registry}"
-                sh "docker build -t ${registry}/${dockerName}:${dockerTag} ./devops_build"
-                sh "docker tag ${registry}/${dockerName}:${dockerTag} ${registry}/${dockerName}:${dockerTag}"
-                sh "docker push ${registry}/${dockerName}:${dockerTag}"
-                sh "docker rmi ${registry}/${dockerName}:${dockerTag}"
+                sh "docker build -t ${registry}/${aliyunNamespace}:${dockerTag} ./devops_build"
+                sh "docker tag ${registry}/${aliyunNamespace}:${dockerTag} ${registry}/${aliyunNamespace}:${dockerTag}"
+                sh "docker push ${registry}/${aliyunNamespace}:${dockerTag}"
+                sh "docker rmi ${registry}/${aliyunNamespace}:${dockerTag}"
             }
             catch(err) {
                 echo "build and upload Image failed"
@@ -57,13 +58,12 @@ node(){
             try {
                 def sshServer = getServer(sshIP)
                 // 更新或下载镜像
-                sshCommand remote: sshServer, command: "docker pull ${registry}/${dockerName}:${dockerTag}"
+                sshCommand remote: sshServer, command: "docker pull ${registry}/${aliyunNamespace}:${dockerTag}"
                 
                 // 停止并删除容器
-                // sshCommand remote: sshServer, command: "docker stop ${registry}/${dockerName}"
                 sshCommand remote: sshServer, command: "docker rm -f ${dockerName}"
                 // 启动
-                sshCommand remote: sshServer, command: "docker run -u root --name ${dockerName} -p 80:80 -d ${registry}/${dockerName}:${dockerTag}"
+                sshCommand remote: sshServer, command: "docker run -u root --name ${dockerName} -p 80:80 -d ${registry}/${aliyunNamespace}:${dockerTag}"
                 // 只保留3个最新的镜像
                 sshCommand remote: sshServer, command: """docker rmi -f \$(docker images | grep ${dockerName} | sed -n  '4,\$p' | awk '{print \$3}') || true"""
             }
