@@ -40,7 +40,7 @@ node() {
             }
     }
 
-    stage('build and upload Image') {
+    stage('build & upload Image') {
         withCredentials([usernamePassword(credentialsId: 'jenkins_login_aliyun_docker', usernameVariable: 'username', passwordVariable: 'password')]) {
             try {
                 sh 'cp -r dist ./devops_build'
