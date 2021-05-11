@@ -9,11 +9,11 @@ node() {
 
     // 个人阿里云镜像仓库地址及命名空间
     def registry = 'registry.cn-beijing.aliyuncs.com'
-    def aliyunNamespace ='marco_images/image-test'
+    def aliyunNamespace = 'marco_images/image-test'
 
     // 部署项目的服务器ip
-    def sshIP ='8.140.26.173'
-    def dockerName ='marco-test'
+    def sshIP = '8.140.26.173'
+    def dockerName = 'marco-test'
 
     stage('get souce code') {
         try {
@@ -27,7 +27,7 @@ node() {
     }
 
     stage('npm run build') {
-        try {
+        try{
             docker.image('node:12-alpine').inside {
                 sh "npm --registry https://registry.npm.taobao.org install"
                 sh 'npm install'
@@ -66,17 +66,15 @@ node() {
         try {
             // 连接远程服务器
             def sshServer = getServer(sshIP)
-
-            sshPut remote: sshServer, from: 'dist', into: '/home/marco/website/temp/'
-            // // 更新或下载镜像
-            // sshCommand remote: sshServer, command: "docker pull ${registry}/${aliyunNamespace}:${dockerTag}"
+            // 更新或下载镜像
+            sshCommand remote: sshServer, command: "docker pull ${registry}/${aliyunNamespace}:${dockerTag}"
             
-            // // 停止并删除容器
-            // sshCommand remote: sshServer, command: "docker rm -f ${dockerName}"
-            // // 启动
-            // sshCommand remote: sshServer, command: "docker run -u root --name ${dockerName} -p 80:80 -d ${registry}/${aliyunNamespace}:${dockerTag}"
-            // // 只保留3个最新的镜像
-            // sshCommand remote: sshServer, command: """docker rmi -f \$(docker images | grep ${dockerName} | sed -n  '4,\$p' | awk '{print \$3}') || true"""
+            // 停止并删除容器
+            sshCommand remote: sshServer, command: "docker rm -f ${dockerName}"
+            // 启动
+            sshCommand remote: sshServer, command: "docker run -u root --name ${dockerName} -p 80:80 -d ${registry}/${aliyunNamespace}:${dockerTag}"
+            // 只保留3个最新的镜像
+            sshCommand remote: sshServer, command: """docker rmi -f \$(docker images | grep ${dockerName} | sed -n  '4,\$p' | awk '{print \$3}') || true"""
         }
         catch(err){
             echo "remote & pull image failed"
