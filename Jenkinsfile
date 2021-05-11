@@ -2,13 +2,18 @@
 
 import java.text.SimpleDateFormat
 
-node(){
+node() {
+    // 镜像tag用时间戳显示，唯一性
     def dateFormat = new SimpleDateFormat("yyyyMMddHHmm")
     def dockerTag = dateFormat.format(new Date())
+
+    // 个人阿里云镜像仓库地址及命名空间
     def registry = 'registry.cn-beijing.aliyuncs.com'
-    def dockerName='marco-test'
     def aliyunNamespace='marco_images/image-test'
+
+    // 部署项目的服务器ip
     def sshIP='8.140.26.173'
+    def dockerName='marco-test'
 
     stage('get souce code') {
         try {
@@ -24,14 +29,12 @@ node(){
     stage('npm run build') {
         try{
             docker.image('node:12-alpine').inside {
-                sh 'node --version'
-                sh 'npm --version'
                 sh "npm --registry https://registry.npm.taobao.org install"
                 sh 'npm install'
                 sh 'npm run build'
             }
-            }
-        catch(err){
+        }
+        catch(err) {
                 echo "npm run build failed"
                 throw err
             }
@@ -40,43 +43,47 @@ node(){
     stage('build and upload Image') {
         withCredentials([usernamePassword(credentialsId: 'jenkins_login_aliyun_docker', usernameVariable: 'username', passwordVariable: 'password')]) {
             try {
-                sh 'pwd'
-                sh 'ls'
                 sh 'cp -r dist ./devops_build'
 
                 sh "docker login -u ${username} -p ${password} ${registry}"
-                sh "docker build -t ${registry}/${aliyunNamespace}:${dockerTag} ./devops_build"
-                sh "docker tag ${registry}/${aliyunNamespace}:${dockerTag} ${registry}/${aliyunNamespace}:${dockerTag}"
+
+                sh "docker build -t ${registry}/${aliyunNamespace} ./devops_build"
+
+                sh "docker tag ${registry}/${aliyunNamespace} ${registry}/${aliyunNamespace}:${dockerTag}"
+
                 sh "docker push ${registry}/${aliyunNamespace}:${dockerTag}"
+
                 sh "docker rmi ${registry}/${aliyunNamespace}:${dockerTag}"
             }
             catch(err) {
                 echo "build and upload Image failed"
                 throw err
             }
+        }
+    }
 
-            try {
-                def sshServer = getServer(sshIP)
-                // 更新或下载镜像
-                sshCommand remote: sshServer, command: "docker pull ${registry}/${aliyunNamespace}:${dockerTag}"
-                
-                // 停止并删除容器
-                sshCommand remote: sshServer, command: "docker rm -f ${dockerName}"
-                // 启动
-                sshCommand remote: sshServer, command: "docker run -u root --name ${dockerName} -p 80:80 -d ${registry}/${aliyunNamespace}:${dockerTag}"
-                // 只保留3个最新的镜像
-                sshCommand remote: sshServer, command: """docker rmi -f \$(docker images | grep ${dockerName} | sed -n  '4,\$p' | awk '{print \$3}') || true"""
+    stage('ssh server & pull image'){
+        try {
+            // 连接远程服务器
+            def sshServer = getServer(sshIP)
+            // 更新或下载镜像
+            sshCommand remote: sshServer, command: "docker pull ${registry}/${aliyunNamespace}:${dockerTag}"
+            
+            // 停止并删除容器
+            sshCommand remote: sshServer, command: "docker rm -f ${dockerName}"
+            // 启动
+            sshCommand remote: sshServer, command: "docker run -u root --name ${dockerName} -p 80:80 -d ${registry}/${aliyunNamespace}:${dockerTag}"
+            // 只保留3个最新的镜像
+            sshCommand remote: sshServer, command: """docker rmi -f \$(docker images | grep ${dockerName} | sed -n  '4,\$p' | awk '{print \$3}') || true"""
             }
             catch(err){
                 echo "remote & pull image failed"
                 throw err
             }
-        }
     }
 }
 
 def getServer(ip){
-    // 需要安装插件 SSH Pipeline Steps
     def remote = [:]
     remote.name = "server-${ip}"
     remote.host = ip
