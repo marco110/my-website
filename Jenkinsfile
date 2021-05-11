@@ -44,7 +44,7 @@ node(){
                 sh 'cp -r dist ./devops_build'
 
                 sh "docker login -u ${username} -p ${password} ${registry}"
-                sh "docker build -t ${dockerName}:${dockerTag} ./devops_build"
+                sh "docker build -t ${registry}/${dockerName}:${dockerTag} ./devops_build"
                 sh "docker tag ${registry}/${dockerName}:${dockerTag} ${registry}/${dockerName}:${dockerTag}"
                 sh "docker push ${registry}/${dockerName}:${dockerTag}"
                 sh "docker rmi ${registry}/${dockerName}:${dockerTag}"
