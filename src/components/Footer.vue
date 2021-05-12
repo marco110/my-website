@@ -36,7 +36,7 @@ export default {
 .separator {
     border-right: 1px solid #efefef;
     border-left: 1px solid #efefef;
-    margin: 0px 10px;
+    margin: 0px 5px;
     height: 80px;
     font-size: inherit;
     vertical-align: middle;
