@@ -74,7 +74,7 @@ node() {
             // 启动
             sshCommand remote: sshServer, command: "docker run -u root --name ${dockerName} -p 80:80 -d ${registry}/${aliyunNamespace}:${dockerTag}"
             // 只保留3个最新的镜像
-            sshCommand remote: sshServer, command: "docker rmi -f \$(docker images | grep ${dockerName} | sed -n  '4,\$p' | awk '{print \$3}')"
+            sshCommand remote: sshServer, command: """docker rmi -f \$(docker images | grep ${registry}/${aliyunNamespace} | sed -n  '4,\$p' | awk '{print \$3}') || true"""
         }
         catch(err){
             echo "remote & pull image failed"
