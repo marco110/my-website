@@ -1,7 +1,7 @@
 <template>
     <div class="footer">
         <span style="color: #fff; vertical-align: middle"
-            >Copyright © 2021 <a style="color: #fff; vertical-align: middle" href="http://marcoma.site/">Marco Ma</a> 版权所有</span
+            >Copyright © 2021 <a style="color: #fff; vertical-align: middle" href="http://marcoma.site/"> Marco Ma </a> 版权所有</span
         >
         <span class="separator"></span>
         <a
