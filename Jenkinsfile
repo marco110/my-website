@@ -90,8 +90,8 @@ def getServer(ip){
     remote.port = 22
     remote.allowAnyHosts = true
     withCredentials([usernamePassword(credentialsId: 'ssh_remote_server', passwordVariable: 'password', usernameVariable: 'username')]) {
-        remote.user = '$username'
-        remote.password = '$password'
+        remote.user = '${username}'
+        remote.password = '${password}'
     }
     return remote
 }
