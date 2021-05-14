@@ -15,6 +15,7 @@
 </template>
 
 <script>
+
 export default {
     name: 'Home'
 };
@@ -92,5 +93,4 @@ li img:hover {
 a:hover {
     color: #f50;
 }
-
 </style>
