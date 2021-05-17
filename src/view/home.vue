@@ -52,6 +52,10 @@ hr {
     border: 2px solid #000;
 }
 
+video {
+    max-width: 100%;
+}
+
 li {
     text-align: center;
 }
