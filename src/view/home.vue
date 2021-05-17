@@ -1,21 +1,16 @@
 <template>
     <h1>Welcome to <strong>marcoma.site</strong></h1>
-    <div class="content">
-        <div class="alert">
-            <h2>更多内容,敬请期待...</h2>
-            <div class="content">
-                <div style="text-align: center">
-                    <video width="420" height="340" controls="controls">
-                        <source src="../assets/video/haha.mp4" type="video/mp4" />
-                    </video>
-                </div>
-            </div>
+    <div class="alert">
+        <h2>更多内容,敬请期待...</h2>
+        <div style="text-align: center">
+            <video width="420" height="340" controls="controls">
+                <source src="../assets/video/haha.mp4" type="video/mp4" />
+            </video>
         </div>
     </div>
 </template>
 
 <script>
-
 export default {
     name: 'Home'
 };
@@ -51,10 +46,6 @@ h2 {
 
 hr {
     display: none;
-}
-
-.content {
-    padding: 1em 5em;
 }
 
 .alert {
