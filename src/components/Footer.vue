@@ -6,7 +6,8 @@
             style="color: #fff; vertical-align: middle"
             target="_blank"
             href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=2021015312"
-            >鲁ICP备2021015312号</a>
+            >鲁ICP备2021015312号</a
+        >
     </div>
 </template>
 

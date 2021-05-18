@@ -1,27 +1,29 @@
 <template>
+    <Header />
     <Home />
+    <!-- <Me /> -->
     <Footer />
 </template>
 
 <script>
+import Header from './components/header';
 import Home from './view/home';
-import Footer from './components/Footer';
+// import Me from './view/me';
+import Footer from './components/footer';
 
 export default {
     name: 'App',
     components: {
+        Header,
         Home,
+        // Me,
         Footer
     }
 };
 </script>
 
-<style>
-* {
-    margin: 0;
-    padding: 0;
-    font-size: 14px;
-}
+<style lang="less">
+@import url('./assets/css/global.less');
 
 #app {
     font-family: Avenir, Helvetica, Arial, sans-serif;
