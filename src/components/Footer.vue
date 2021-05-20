@@ -17,7 +17,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style  lang="less" scoped>
 .footer {
     position: absolute;
     bottom: 0;
@@ -25,18 +25,18 @@ export default {
     padding: 10px 0;
     color: #ffffff;
     background-color: rgb(59, 60, 61);
-}
 
-.footer a {
-    text-decoration: none;
-}
+    a {
+        text-decoration: none;
+    }
 
-.separator {
-    border-right: 1px solid #efefef;
-    border-left: 1px solid #efefef;
-    margin: 0px 5px;
-    height: 80px;
-    font-size: inherit;
-    vertical-align: middle;
+    .separator {
+        border-right: 1px solid #efefef;
+        border-left: 1px solid #efefef;
+        margin: 0px 5px;
+        height: 80px;
+        font-size: inherit;
+        vertical-align: middle;
+    }
 }
 </style>
