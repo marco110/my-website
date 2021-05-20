@@ -3,7 +3,7 @@
         <h2>更多内容,敬请期待...</h2>
         <div style="text-align: center">
             <video width="420" height="340" controls="controls">
-                <source src="../assets/video/haha.mp4" type="video/mp4" />
+                <source src="../assets/video/cd.mp4" type="video/mp4" />
             </video>
         </div>
     </div>
