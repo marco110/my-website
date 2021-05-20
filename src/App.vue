@@ -2,22 +2,22 @@
     <Header />
     <Home />
     <!-- <Me /> -->
-    <!-- <Footer /> -->
+    <Footer />
 </template>
 
 <script>
 import Header from './components/header';
 import Home from './view/home';
 // import Me from './view/me';
-// import Footer from './components/footer';
+import Footer from './components/footer';
 
 export default {
     name: 'App',
     components: {
         Header,
         Home,
-        // Me,
-        // Footer
+        Footer
+        // Me
     }
 };
 </script>
