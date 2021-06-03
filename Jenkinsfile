@@ -66,13 +66,16 @@ node() {
         try {
             // 连接远程服务器
             def sshServer = getServer(sshIP)
+            // 复制证书文件
+            sshCommand remote: sshServer, command: "docker cp /home/marco/nginx/ssl/:/ssl/"
+
             // 更新或下载镜像
             sshCommand remote: sshServer, command: "docker pull ${registry}/${aliyunNamespace}:${dockerTag}"
             
             // 停止并删除容器
             sshCommand remote: sshServer, command: "docker rm -f ${dockerName}"
             // 启动
-            sshCommand remote: sshServer, command: "docker run -u root --name ${dockerName} -p 80:80 -p 443:443 -v /home/marco/nginx/ssl:/ssl/:rw -d ${registry}/${aliyunNamespace}:${dockerTag}"
+            sshCommand remote: sshServer, command: "docker run -u root --name ${dockerName} -p 80:80 -p 443:443 -d ${registry}/${aliyunNamespace}:${dockerTag}"
             // 只保留3个最新的镜像
             sshCommand remote: sshServer, command: """docker rmi -f \$(docker images | grep ${registry}/${aliyunNamespace} | sed -n  '4,\$p' | awk '{print \$3}') || true"""
         }
