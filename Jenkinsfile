@@ -72,7 +72,7 @@ node() {
             // 停止并删除容器
             sshCommand remote: sshServer, command: "docker rm -f ${dockerName}"
             // 启动
-            sshCommand remote: sshServer, command: "docker run -u root --name ${dockerName} -v /home/marco/nginx/:/etc/nginx/ -p 80:80 -p 443:443 -d ${registry}/${aliyunNamespace}:${dockerTag}"
+            sshCommand remote: sshServer, command: "docker run -u root --name ${dockerName} -v /home/marco/nginx/cert:/etc/nginx -p 80:80 -p 443:443 -d ${registry}/${aliyunNamespace}:${dockerTag}"
             // 只保留3个最新的镜像
             sshCommand remote: sshServer, command: """docker rmi -f \$(docker images | grep ${registry}/${aliyunNamespace} | sed -n  '4,\$p' | awk '{print \$3}') || true"""
         }

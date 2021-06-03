@@ -1,6 +1,6 @@
 FROM nginx:1.17.3-alpine
 
-LABEL MAINTAINER="marco-test"
+LABEL MAINTAINER="marco"
 
 ADD ./nginx.conf /etc/nginx/nginx.conf
 
