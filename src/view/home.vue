@@ -1,6 +1,6 @@
 <template>
     <div class="alert">
-        <h2>预祝孙福飞同学明天答辩顺利通过！！！</h2>
+        <!-- <h2>预祝孙福飞同学明天答辩顺利通过！！！</h2> -->
         <div style="text-align: center">
             <video width="420" height="340" controls="controls">
                 <source src="https://wuxiaozheng.wuzheng.com.cn:8090/test/images/project-ecosystem/test2.0/video/demo1.mp4" type="video/mp4" />
