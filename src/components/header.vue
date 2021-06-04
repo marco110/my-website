@@ -1,5 +1,5 @@
 <template>
-    <p class="header">欢迎进入此网站...</p>
+    <p class="header">热烈祝贺孙福飞同学获得国家公派留学资格！！！</p>
 </template>
 
 <script>
@@ -14,7 +14,7 @@ export default {
     height: 70px;
     line-height: 70px;
     color: #ffffff;
-    background-color: #00995d;
+    background-color: #cc0000;
     font-size: 24px;
     border-bottom: 1px solid #ffffff;
 }

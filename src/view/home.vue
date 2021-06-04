@@ -1,10 +1,11 @@
 <template>
     <div class="alert">
-        <!-- <h2>预祝孙福飞同学明天答辩顺利通过！！！</h2> -->
+        <!-- <h2>热烈祝贺孙福飞同学获得国家公派留学资格！！！</h2> -->
         <div style="text-align: center">
-            <video width="420" height="340" controls="controls">
+            <!-- <video width="420" height="340" controls="controls">
                 <source src="https://wuxiaozheng.wuzheng.com.cn:8090/test/images/project-ecosystem/test2.0/video/demo1.mp4" type="video/mp4" />
-            </video>
+            </video> -->
+            <img class="image" src="../assets/image/sun.png" />
         </div>
     </div>
 </template>
@@ -53,6 +54,11 @@ hr {
 
 video {
     max-width: 100%;
+}
+
+.image {
+    width: 440px;
+    height: 550px;
 }
 
 li {
