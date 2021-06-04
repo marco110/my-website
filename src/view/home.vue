@@ -57,7 +57,7 @@ video {
 }
 
 .image {
-    width: 440px;
+    width: 340px;
     height: 550px;
 }
 
