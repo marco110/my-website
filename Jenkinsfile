@@ -79,6 +79,9 @@ node() {
 
             // 复制证书文件
             sshCommand remote: sshServer, command: "docker cp /home/marco/nginx/ssl/ ${dockerName}:/ssl/"
+
+            // 重新启动
+            sshCommand remote: sshServer, command: "docker restart ${dockerName}"
         }
         catch(err){
             echo "remote & pull image failed"
